@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    var childViewController: UIViewController!
+    var childViewController: ChildViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +25,11 @@ class ViewController: UIViewController {
     func addChildViewController() {
         removeChildViewController()
         childViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChildViewController") as! ChildViewController
-        
+        childViewController.parentVC = self
         childViewController.view.frame = self.view.bounds
         self.view.addSubview(childViewController.view)
         childViewController.willMove(toParentViewController: self)
-        
-        //Bottom up transition animation
-        childViewController.view.frame.origin.y = self.view.bounds.height
+                
         UIView.transition(with: childViewController.view, duration: 0.35, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.childViewController.view.frame.origin.y = 0
         }) { (finish) in
